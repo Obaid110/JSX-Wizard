@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>JSX Wizard</title>
+
+    <meta name="description"
+        content="JSX Wizard is a free online tool to convert raw HTML and SVG into clean, React-safe JSX instantly. Automatically fixes class, style, SVG attributes, and React compatibility issues.">
+
+    <meta name="keywords"
+        content="JSX Converter, HTML to JSX, SVG to JSX, React JSX Converter, React HTML Converter, SVG React, JSX Wizard, React Tools, HTML Converter, Frontend Developer Tools">
+
+    <meta name="author" content="JSX Wizard">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="English">
+    <meta name="theme-color" content="#4F46E5">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="http://jsxwizrad.niii.xyz/">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="JSX Wizard – Convert HTML & SVG to React JSX Instantly">
+    <meta property="og:description"
+        content="Convert raw HTML & SVG into clean React-safe JSX with one click. Free, fast, and developer-friendly.">
+    <meta property="og:url" content="http://jsxwizrad.niii.xyz/">
+    <meta property="og:image" content="http://jsxwizrad.niii.xyz/logo.png">
+    <meta property="og:site_name" content="JSX Wizard">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="JSX Wizard – HTML & SVG to React JSX Converter">
+    <meta name="twitter:description" content="Free online converter for HTML & SVG to React-safe JSX.">
+    <meta name="twitter:image" content="http://jsxwizrad.niii.xyz/logo.png">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap"
+        rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "JSX Wizard",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Web",
+      "url": "http://jsxwizrad.niii.xyz/",
+      "description": "Convert raw HTML & SVG into React-safe JSX instantly.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .code-font {
+            font-family: 'Fira Code', monospace;
+        }
+
+        /* Custom scrollbars for editor feeling */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #475569;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #64748b;
+        }
+    </style>
+</head>
+
+<body class="bg-slate-950 text-slate-100 min-h-full flex flex-col selection:bg-indigo-500 selection:text-white">
+
+    <!-- Top premium header -->
+    <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur-md sticky top-0 z-50 px-6 py-4">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-3">
+                <img src="logo.png" width="40" alt="">
+                <div>
+                    <h1
+                        class="text-xl font-bold tracking-tight bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent">
+                        JSX Wizard
+                    </h1>
+                    <p class="text-xs text-indigo-400 font-medium">Convert raw HTML & SVG to React-safe JSX instantly
+                    </p>
+                </div>
+            </div>
+
+            <!-- Quick Actions & Stats Overview -->
+            <div class="flex flex-wrap items-center gap-3">
+                <button onclick="loadSample('svg')"
+                    class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition duration-150 flex items-center gap-1.5">
+                    <i class="fa-solid fa-wand-magic-sparkles text-cyan-400"></i> SVG Sample
+                </button>
+                <button onclick="loadSample('html')"
+                    class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 transition duration-150 flex items-center gap-1.5">
+                    <i class="fa-solid fa-code text-indigo-400"></i> HTML Sample
+                </button>
+                <button onclick="clearAll()"
+                    class="px-3 py-1.5 text-xs font-semibold rounded-lg bg-red-950/40 hover:bg-red-900/60 text-red-300 border border-red-800/50 transition duration-150 flex items-center gap-1.5">
+                    <i class="fa-solid fa-trash-can"></i> Clear All
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main content container -->
+    <main class="flex-1 max-w-7xl w-full mx-auto p-4 md:p-6 flex flex-col gap-6">
+
+        <!-- Explanation & Tutorial Box in Urdu/English mix -->
+        <div
+            class="bg-gradient-to-r from-slate-900 via-indigo-950/30 to-slate-900 border border-slate-800/80 rounded-2xl p-4 md:p-5 flex items-start gap-4">
+            <div class="hidden sm:flex bg-indigo-500/10 text-indigo-400 p-3 rounded-xl mt-1">
+                <i class="fa-solid fa-circle-info text-xl"></i>
+            </div>
+            <div class="space-y-1.5">
+                <h2 class="text-sm font-semibold text-indigo-300">Often SVG or HTML copy-paste results in React errors</h2>
+                <p class="text-xs md:text-sm text-slate-400 leading-relaxed">
+                    React does not accept normal HTML/SVG attributes there we have <code
+                        class="text-xs bg-slate-800 px-1.5 py-0.5 rounded text-indigo-300 font-mono">class</code> which place <code
+                        class="text-xs bg-slate-800 px-1.5 py-0.5 rounded text-indigo-300 font-mono">className</code>,
+                    and <code
+                        class="text-xs bg-slate-800 px-1.5 py-0.5 rounded text-indigo-300 font-mono">stroke-width</code>
+                    Which place in CamelCase format <code
+                        class="text-xs bg-slate-800 px-1.5 py-0.5 rounded text-indigo-300 font-mono">strokeWidth</code>
+                    It is required. This tool will fix all those issues in seconds.
+                </p>
+            </div>
+        </div>
+
+        <!-- Conversion settings options -->
+        <div
+            class="bg-slate-900 border border-slate-800 rounded-2xl p-4 flex flex-wrap gap-4 items-center justify-between">
+            <div class="flex items-center gap-2">
+                <i class="fa-solid fa-sliders text-indigo-400"></i>
+                <span class="text-sm font-semibold text-slate-200">Converter Settings</span>
+            </div>
+            <div class="flex flex-wrap gap-4 md:gap-6 text-xs font-medium text-slate-300">
+                <label class="flex items-center gap-2 cursor-pointer group">
+                    <input type="checkbox" id="convertStylesOpt" checked onchange="convert()"
+                        class="w-4 h-4 rounded text-indigo-600 bg-slate-800 border-slate-700 focus:ring-indigo-500 focus:ring-offset-slate-900 focus:ring-2">
+                    <span class="group-hover:text-slate-100 transition-colors">Convert Inline Styles to JSX
+                        Objects</span>
+                </label>
+                <label class="flex items-center gap-2 cursor-pointer group">
+                    <input type="checkbox" id="closeTagsOpt" checked onchange="convert()"
+                        class="w-4 h-4 rounded text-indigo-600 bg-slate-800 border-slate-700 focus:ring-indigo-500 focus:ring-offset-slate-900 focus:ring-2">
+                    <span class="group-hover:text-slate-100 transition-colors">Auto Close Self-Closing Tags</span>
+                </label>
+                <label class="flex items-center gap-2 cursor-pointer group">
+                    <input type="checkbox" id="convertCommentsOpt" checked onchange="convert()"
+                        class="w-4 h-4 rounded text-indigo-600 bg-slate-800 border-slate-700 focus:ring-indigo-500 focus:ring-offset-slate-900 focus:ring-2">
+                    <span class="group-hover:text-slate-100 transition-colors">Convert HTML Comments to <code
+                            class="text-[10px] text-cyan-400 bg-slate-950 px-1 py-0.5 rounded font-mono">{/* */}</code></span>
+                </label>
+            </div>
+        </div>
+
+        <!-- Twin panels: Input vs Output -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
+
+            <!-- Input Panel (Left) -->
+            <div
+                class="flex flex-col bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-xl min-h-[450px]">
+                <div class="bg-slate-800/40 px-4 py-3 border-b border-slate-800 flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <span class="flex h-2.5 w-2.5 rounded-full bg-red-500 animate-pulse"></span>
+                        <span class="text-xs font-semibold tracking-wider uppercase text-slate-400">Paste HTML / SVG
+                            Code here</span>
+                    </div>
+                    <button onclick="pasteFromClipboard()"
+                        class="text-slate-400 hover:text-slate-200 text-xs flex items-center gap-1 transition">
+                        <i class="fa-solid fa-paste"></i> Paste
+                    </button>
+                </div>
+                <div class="relative flex-1 flex flex-col">
+                    <textarea id="rawInput" oninput="convert()" placeholder="<!-- Pasting here will instantly output JSX code on the right -->
+<svg class='hero-icon' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' style='color: red; margin: 10px;'>
+  <!-- Your complex paths -->
+</svg>" class="flex-1 w-full h-[380px] p-4 bg-slate-950 text-slate-100 code-font text-sm focus:outline-none focus:ring-1 focus:ring-indigo-500 resize-none border-0 placeholder-slate-600"></textarea>
+                </div>
+            </div>
+
+            <!-- Output Panel (Right) -->
+            <div
+                class="flex flex-col bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-xl min-h-[450px]">
+                <div class="bg-slate-800/40 px-4 py-3 border-b border-slate-800 flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <span class="flex h-2.5 w-2.5 rounded-full bg-green-500"></span>
+                        <span class="text-xs font-semibold tracking-wider uppercase text-slate-400">Clean React JSX
+                            Output</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button onclick="copyToClipboard()"
+                            class="bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-1.5 rounded-lg text-xs font-medium flex items-center gap-1.5 transition active:scale-95 shadow-lg shadow-indigo-600/15">
+                            <i id="copyIcon" class="fa-regular fa-copy"></i> <span id="copyBtnText">Copy JSX</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="relative flex-1 flex flex-col">
+                    <textarea id="jsxOutput" readonly placeholder="Output JSX code will render here..."
+                        class="flex-1 w-full h-[380px] p-4 bg-slate-950 text-indigo-300 code-font text-sm focus:outline-none resize-none border-0"></textarea>
+
+                    <!-- Copy Alert Popover (Absolute) -->
+                    <div id="copyAlert"
+                        class="absolute bottom-4 right-4 bg-emerald-500 text-slate-950 px-4 py-2.5 rounded-xl font-bold text-xs flex items-center gap-2 shadow-2xl shadow-emerald-500/20 transform translate-y-10 opacity-0 transition-all duration-300 pointer-events-none">
+                        <i class="fa-solid fa-circle-check text-base"></i> React JSX Copied Successfully!
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Stats & Logs section -->
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-lg">
+            <h3 class="text-sm font-semibold text-slate-200 mb-4 flex items-center gap-2">
+                <i class="fa-solid fa-bolt text-amber-400"></i> Conversion & Fixing Reports
+            </h3>
+
+            <div id="noStatsPlaceholder" class="text-center py-6 text-slate-500 text-sm">
+                Paste any code above to check live conversion statistics.
+            </div>
+
+            <div id="statsContainer" class="hidden grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+                <!-- Dynamically generated stat cards go here -->
+            </div>
+        </div>
+
+        <!-- Live Visual Previews comparison -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+            <!-- Raw HTML Preview Canvas -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden p-5 flex flex-col gap-3">
+                <h3 class="text-sm font-semibold text-slate-200 flex items-center gap-2">
+                    <i class="fa-solid fa-eye text-indigo-400"></i> Visual Preview (HTML Style)
+                </h3>
+                <div id="rawPreview"
+                    class="flex-1 min-h-[150px] bg-slate-950 rounded-xl border border-slate-800/80 p-4 flex items-center justify-center text-slate-500 text-xs overflow-auto">
+                    Nothing to preview.
+                </div>
+            </div>
+
+            <!-- JSX Conversion Status Indicator / Code Preview Visual -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden p-5 flex flex-col gap-3">
+                <h3 class="text-sm font-semibold text-slate-200 flex items-center gap-2">
+                    <i class="fa-solid fa-circle-nodes text-cyan-400"></i> Structure Status Checks
+                </h3>
+                <div
+                    class="flex-1 bg-slate-950 rounded-xl border border-slate-800/80 p-4 flex flex-col justify-center gap-3">
+                    <div class="flex items-center justify-between text-xs border-b border-slate-800/80 pb-2">
+                        <span class="text-slate-400">React version compatibility:</span>
+                        <span class="text-emerald-400 font-semibold bg-emerald-500/10 px-2 py-0.5 rounded">v16+ & v18 /
+                            v19</span>
+                    </div>
+                    <div class="flex items-center justify-between text-xs border-b border-slate-800/80 pb-2">
+                        <span class="text-slate-400">CSS Inline styles status:</span>
+                        <span id="styleStatusBadge" class="text-slate-500 font-semibold">Not Detected</span>
+                    </div>
+                    <div class="flex items-center justify-between text-xs">
+                        <span class="text-slate-400">Self Closing Elements check:</span>
+                        <span id="selfCloseStatusBadge" class="text-slate-500 font-semibold">Perfect</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Global App Footer -->
+    <footer class="border-t border-slate-900 bg-slate-950 text-slate-500 py-6 px-6 text-center text-xs">
+        <p class="max-w-7xl mx-auto">
+            Design & Engine by NIII. Fast, client-side React code optimization platform. Safe, isolated compiler
+            context.
+        </p>
+    </footer>
+
+    <script>
+        // Dictionary mapping of standard HTML attributes to React CamelCase attributes
+        const attrReplacements = {
+            'class': 'className',
+            'for': 'htmlFor',
+            // SVG specific attributes
+            'stroke-width': 'strokeWidth',
+            'stroke-linecap': 'strokeLinecap',
+            'stroke-linejoin': 'strokeLinejoin',
+            'stroke-miterlimit': 'strokeMiterlimit',
+            'stroke-dasharray': 'strokeDasharray',
+            'stroke-dashoffset': 'strokeDashoffset',
+            'stroke-opacity': 'strokeOpacity',
+            'fill-opacity': 'fillOpacity',
+            'fill-rule': 'fillRule',
+            'clip-rule': 'clipRule',
+            'stop-color': 'stopColor',
+            'stop-opacity': 'stopOpacity',
+            'font-family': 'fontFamily',
+            'font-size': 'fontSize',
+            'font-weight': 'fontWeight',
+            'letter-spacing': 'letterSpacing',
+            'text-anchor': 'textAnchor',
+            'alignment-baseline': 'alignmentBaseline',
+            'dominant-baseline': 'dominantBaseline',
+            'clip-path': 'clipPath',
+            'flood-color': 'floodColor',
+            'flood-opacity': 'floodOpacity',
+            'color-interpolation': 'colorInterpolation',
+            'color-rendering': 'colorRendering',
+            'shape-rendering': 'shapeRendering',
+            'text-rendering': 'textRendering',
+            'image-rendering': 'imageRendering',
+            'vector-effect': 'vectorEffect',
+            // Other common attributes
+            'tabindex': 'tabIndex',
+            'autocomplete': 'autoComplete',
+            'autofocus': 'autoFocus',
+            'readonly': 'readOnly',
+            'maxlength': 'maxLength',
+            'onclick': 'onClick',
+            'onchange': 'onChange',
+            'oninput': 'onInput',
+            'onsubmit': 'onSubmit',
+            'onmouseover': 'onMouseOver',
+            'onmouseout': 'onMouseOut',
+            'onkeydown': 'onKeyDown',
+            'onkeypress': 'onKeyPress',
+            'onkeyup': 'onKeyUp',
+            'crossorigin': 'crossOrigin',
+            'novalidate': 'noValidate',
+            'spellcheck': 'spellCheck',
+            'contenteditable': 'contentEditable',
+            'xml:space': 'xmlSpace',
+            'xmlns:xlink': 'xmlnsXlink',
+            'xlink:href': 'xlinkHref',
+            'gradientunits': 'gradientUnits',
+            'gradienttransform': 'gradientTransform',
+            'patternunits': 'patternUnits',
+            'spreadmethod': 'spreadMethod',
+            'viewbox': 'viewBox' // Highly critical SVG viewBox issue
+        };
+
+        // Self-closing tags list
+        const selfClosingTags = [
+            'img', 'input', 'br', 'hr', 'path', 'circle', 'rect', 'line', 'polyline', 'polygon', 'ellipse', 'use', 'stop', 'area', 'base', 'col', 'embed', 'param', 'source', 'track', 'wbr', 'meta', 'link'
+        ];
+
+        function convert() {
+            const rawInput = document.getElementById('rawInput').value;
+            if (!rawInput.trim()) {
+                document.getElementById('jsxOutput').value = '';
+                document.getElementById('statsContainer').innerHTML = '';
+                document.getElementById('statsContainer').classList.add('hidden');
+                document.getElementById('noStatsPlaceholder').classList.remove('hidden');
+                document.getElementById('rawPreview').innerHTML = 'Nothing to preview.';
+                document.getElementById('styleStatusBadge').textContent = 'Not Detected';
+                document.getElementById('styleStatusBadge').className = 'text-slate-500 font-semibold';
+                return;
+            }
+
+            let output = rawInput;
+            let stats = {};
+
+            // 1. Convert HTML Comments if setting is active
+            if (document.getElementById('convertCommentsOpt').checked) {
+                const initialLength = output.length;
+                output = output.replace(/<!--([\s\S]*?)-->/g, '{/*$1*/}');
+                if (output.length !== initialLength) {
+                    stats['HTML Comments'] = (stats['HTML Comments'] || 0) + 1;
+                }
+            }
+
+            // 2. Main Attribute Replacements parser
+            // Parse tags and modify only tag bodies to prevent changing text contents
+            output = output.replace(/(<[a-zA-Z0-9:-]+)(\s[^>]*?)(\/?>)/g, (match, tagStart, tagBody, tagEnd) => {
+                let updatedBody = tagBody;
+
+                // A. Check for standard attribute conversions
+                for (const [rawAttr, reactAttr] of Object.entries(attrReplacements)) {
+                    // Match attribute strictly with spacing, ignoring characters inside values
+                    const regex = new RegExp(`(^|\\s)${rawAttr}(\\s*=)`, 'gi');
+                    if (regex.test(updatedBody)) {
+                        updatedBody = updatedBody.replace(regex, `$1${reactAttr}$2`);
+                        stats[rawAttr] = (stats[rawAttr] || 0) + 1;
+                    }
+                }
+
+                // B. Convert inline style string to React's JSX object if active
+                if (document.getElementById('convertStylesOpt').checked) {
+                    const styleRegex = /style\s*=\s*(["'])(.*?)\1/gi;
+                    if (styleRegex.test(updatedBody)) {
+                        updatedBody = updatedBody.replace(styleRegex, (styleMatch, quote, styleStr) => {
+                            const rules = styleStr.split(';').filter(rule => rule.trim() !== '');
+                            const objRules = rules.map(rule => {
+                                const colonIdx = rule.indexOf(':');
+                                if (colonIdx === -1) return null;
+                                const key = rule.substring(0, colonIdx).trim();
+                                const value = rule.substring(colonIdx + 1).trim();
+
+                                // Convert key to camelCase (e.g. margin-top to marginTop)
+                                const camelKey = key.replace(/-([a-z])/g, (g) => g[1].toUpperCase());
+                                // Escape internal quotes safely
+                                const cleanValue = value.replace(/"/g, '\\"');
+                                return `${camelKey}: "${cleanValue}"`;
+                            }).filter(Boolean);
+
+                            stats['Inline Styles'] = (stats['Inline Styles'] || 0) + 1;
+                            return `style={{ ${objRules.join(', ')} }}`;
+                        });
+                    }
+                }
+
+                return tagStart + updatedBody + tagEnd;
+            });
+
+            // 3. Process Self-Closing Tags if active
+            if (document.getElementById('closeTagsOpt').checked) {
+                selfClosingTags.forEach(tag => {
+                    // Look for matches of specific tag that does not end with / (e.g. <path d="..." >)
+                    const tagRegex = new RegExp(`<(${tag})(\\s[^>]*?)(?<!\\/)>`, 'gi');
+                    output = output.replace(tagRegex, (match, tagName, tagBody) => {
+                        stats['Self-closing Tags Closed'] = (stats['Self-closing Tags Closed'] || 0) + 1;
+                        return `<${tagName}${tagBody} />`;
+                    });
+                });
+            }
+
+            // Render Output
+            document.getElementById('jsxOutput').value = output;
+
+            // Update Statistics
+            renderStats(stats);
+
+            // Update Previews
+            renderLivePreview(rawInput);
+        }
+
+        // Render stats dashboard cards
+        function renderStats(stats) {
+            const container = document.getElementById('statsContainer');
+            const placeholder = document.getElementById('noStatsPlaceholder');
+
+            container.innerHTML = '';
+
+            const keys = Object.keys(stats);
+            if (keys.length === 0) {
+                container.classList.add('hidden');
+                placeholder.classList.remove('hidden');
+                placeholder.textContent = "Your pasted code is already clean & JSX-perfect! No fixes required.";
+
+                document.getElementById('styleStatusBadge').textContent = 'Perfect (No Inline Style)';
+                document.getElementById('styleStatusBadge').className = 'text-emerald-400 font-semibold';
+                document.getElementById('selfCloseStatusBadge').textContent = 'Correct';
+                document.getElementById('selfCloseStatusBadge').className = 'text-emerald-400 font-semibold';
+                return;
+            }
+
+            placeholder.classList.add('hidden');
+            container.classList.remove('hidden');
+
+            keys.forEach(key => {
+                const value = stats[key];
+
+                const card = document.createElement('div');
+                card.className = "bg-slate-950 border border-slate-800 p-3 rounded-xl flex items-center justify-between";
+
+                let iconColor = "text-indigo-400";
+                let iconClass = "fa-solid fa-code-commit";
+                let displayName = key;
+
+                if (key === 'className') {
+                    iconColor = "text-emerald-400";
+                    iconClass = "fa-brands fa-html5";
+                    displayName = "class → className";
+                } else if (key === 'Inline Styles') {
+                    iconColor = "text-violet-400";
+                    iconClass = "fa-solid fa-palette";
+                    displayName = "Styles Objectified";
+
+                    document.getElementById('styleStatusBadge').textContent = 'Converted to object';
+                    document.getElementById('styleStatusBadge').className = 'text-violet-400 font-semibold';
+                } else if (key === 'Self-closing Tags Closed') {
+                    iconColor = "text-cyan-400";
+                    iconClass = "fa-solid fa-circle-notch";
+                    displayName = "Tags Closed";
+
+                    document.getElementById('selfCloseStatusBadge').textContent = 'Corrected (' + value + ')';
+                    document.getElementById('selfCloseStatusBadge').className = 'text-cyan-400 font-semibold';
+                }
+
+                card.innerHTML = `
+                    <div class="flex items-center gap-2">
+                        <span class="${iconColor} bg-slate-900 p-1.5 rounded-lg text-xs">
+                            <i class="${iconClass}"></i>
+                        </span>
+                        <div class="text-xs">
+                            <p class="text-slate-400 font-medium">${displayName}</p>
+                        </div>
+                    </div>
+                    <span class="text-xs font-bold bg-slate-800 px-2.5 py-1 rounded-lg text-slate-200">${value}</span>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Update raw HTML visualization sandbox safely
+        function renderLivePreview(rawHTML) {
+            const previewBox = document.getElementById('rawPreview');
+            // Check if input is empty or has dangerous elements to render
+            if (!rawHTML.trim()) {
+                previewBox.innerHTML = 'Nothing to preview.';
+                return;
+            }
+
+            // Clean/Secure sandboxed container approach inside preview element
+            // Since this runs client-side strictly, we append standard elements directly.
+            try {
+                previewBox.innerHTML = rawHTML;
+                // Double-check inside container if any SVGs/images got broken
+                const svgs = previewBox.querySelectorAll('svg');
+                svgs.forEach(svg => {
+                    svg.classList.add('max-h-[130px]', 'w-auto');
+                });
+            } catch (e) {
+                previewBox.innerHTML = `<span class="text-red-400 text-xs flex items-center gap-1.5"><i class="fa-solid fa-triangle-exclamation"></i> Preview Error: ${e.message}</span>`;
+            }
+        }
+
+        // Copy to clipboard utility with UI status response
+        function copyToClipboard() {
+            const outputText = document.getElementById('jsxOutput');
+            if (!outputText.value.trim()) return;
+
+            // High compatibility fallback for iframe restrictions
+            outputText.select();
+            outputText.setSelectionRange(0, 99999); // For mobile devices
+
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    showCopyNotification();
+                }
+            } catch (err) {
+                // If browser blocks execCommand
+                navigator.clipboard.writeText(outputText.value).then(() => {
+                    showCopyNotification();
+                }).catch(() => {
+                    alert('Error copying text. Please select and copy manually.');
+                });
+            }
+        }
+
+        function showCopyNotification() {
+            const alertBox = document.getElementById('copyAlert');
+            const copyIcon = document.getElementById('copyIcon');
+            const copyBtnText = document.getElementById('copyBtnText');
+
+            // Set alert UI action
+            alertBox.classList.remove('translate-y-10', 'opacity-0');
+            alertBox.classList.add('translate-y-0', 'opacity-100');
+
+            copyIcon.className = "fa-solid fa-check";
+            copyBtnText.textContent = "Copied!";
+
+            setTimeout(() => {
+                alertBox.classList.add('translate-y-10', 'opacity-0');
+                alertBox.classList.remove('translate-y-0', 'opacity-100');
+                copyIcon.className = "fa-regular fa-copy";
+                copyBtnText.textContent = "Copy JSX";
+            }, 2500);
+        }
+
+        // Paste action handler
+        function pasteFromClipboard() {
+            navigator.clipboard.readText().then(text => {
+                document.getElementById('rawInput').value = text;
+                convert();
+            }).catch(err => {
+                // Clipboard permissions blocked or unsupported
+                console.log("Clipboard read blocked. Fallback input paste.");
+            });
+        }
+
+        function clearAll() {
+            document.getElementById('rawInput').value = '';
+            convert();
+        }
+
+        // Load interactive preset SVG/HTML samples for user
+        const samples = {
+            svg: `<svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: purple; padding: 5px;">
+  <!-- Main SVG Path with normal attributes -->
+  <circle cx="12" cy="12" r="10" stroke-width="1.5" fill-opacity="0.5"></circle>
+  <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+</svg>`,
+            html: `<div class="p-6 max-w-sm mx-auto bg-slate-900 rounded-xl shadow-md flex items-center space-x-4 border border-indigo-500" style="background-color: #1e1b4b; border-radius: 12px; margin-top: 20px;">
+  <div class="flex-shrink-0">
+    <!-- Unclosed image tags must be closed in JSX -->
+    <img class="h-12 w-12" src="https://placehold.co/100x100/6366f1/ffffff?text=W" alt="Logo">
+  </div>
+  <div>
+    <div class="text-xl font-medium text-white">JSX Converter</div>
+    <p class="text-slate-400 text-sm">Perfect code instantly!</p>
+    <br>
+    <input class="input-field" type="text" placeholder="Testing input closing tag">
+  </div>
+</div>`
+        };
+
+        function loadSample(type) {
+            if (samples[type]) {
+                document.getElementById('rawInput').value = samples[type];
+                convert();
+            }
+        }
+
+        // Initialize automatically with an SVG sample on window load
+        window.onload = function () {
+            loadSample('svg');
+        }
+    </script>
+</body>
+
+</html>
